@@ -6,27 +6,58 @@
 */
 
 #include <unistd.h>
-#include "my.h"
+#include <stdlib.h>
+#include "matchstick.h"
+
+void fillmap(int nbr_line, char *map)
+{
+    int index = 0;
+
+    for (int i = 0; i < nbr_line * 2 + 1; i++, index++)
+        map[index] = '*';
+    map[index] = '\n';
+    index++;
+    for (int i = 0; i < nbr_line; i++, index++) {
+        map[index] = '*';
+        index++;
+        for (int j = 0; j < nbr_line - i - 1; j++, index++)
+            map[index] = ' ';
+        for (int j = 0; j < (i * 2) + 1; j++, index++)
+            map[index] = '|';
+        for (int j = 0; j < nbr_line - i - 1; j++, index++)
+            map[index] = ' ';
+        map[index] = '*';
+        index += 1;
+        map[index] = '\n';
+    }
+    for (int i = 0; i < nbr_line * 2 + 1; i++, index++)
+        map[index] = '*';
+    map[index] = '\n';
+}
+
+void do_game(game_t *game)
+{
+    for (int i = 0; game->map[i] != '\0'; i++)
+        write(1, &game->map[i], 1);
+    my_printf("\nYour turn:\n");
+    read_player_move_and_print_updated_board_game(game);
+}
 
 int matchstick(int nbr_line, int max_matches)
 {
-    for (int i = 0; i < nbr_line * 2 + 1; i++)
-        write(1, "*", 1);
-    write(1, "\n", 1);
-    for (int i = 0; i < nbr_line; i++) {
-        write(1, "*", 1);
-        for (int j = 0; j < nbr_line - i - 1; j++)
-            write(1, " ", 1);
-        for (int j = 0; j < (i * 2) + 1; j++)
-            write(1, "|", 1);
-        for (int j = 0; j < nbr_line - i - 1; j++)
-            write(1, " ", 1);
-        write(1, "*\n", 2);
-    }
-    for (int i = 0; i < nbr_line * 2 + 1; i++)
-        write(1, "*", 1);
-    write(1, "\n", 1);
-    return (1);
+    game_t game = {NULL, 0, 0, 0, -1};
+    int ret = 0;
+
+    game.map = malloc(sizeof(char) * ((nbr_line + 2) * (nbr_line * 2 + 2) + 1));
+    if (game.map == NULL)
+        return (84);
+    game.map[(nbr_line + 2) * (nbr_line * 2 + 2)] = '\0';
+    game.max_line = nbr_line;
+    game.map_width = (nbr_line * 2 + 2);
+    fillmap(nbr_line, game.map);
+    while (game.end == -1)
+        do_game(&game);
+    return (game.end);
 }
 
 int main(int argc, char **argv)
