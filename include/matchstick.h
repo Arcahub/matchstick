@@ -18,9 +18,11 @@ typedef struct game {
     int map_width;
     int max_matches;
     int end;
+    int *array;
 } game_t;
 
 void read_player_move_and_print_updated_board_game(game_t *);
 void print_updated_game_board(int, int, char *);
 void my_printf(char *, ...);
+void ia_turn(game_t *game);
 #endif /* !MATCHSTICK_H_ */

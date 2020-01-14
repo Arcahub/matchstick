@@ -9,27 +9,37 @@
 #include <stdlib.h>
 #include "matchstick.h"
 
-void fillmap(int nbr_line, char *map)
+int fill_map_matches(int nbr_line, int index, char *map, int *array)
 {
-    int index = 0;
-
-    for (int i = 0; i < nbr_line * 2 + 1; i++, index++)
-        map[index] = '*';
-    map[index] = '\n';
-    index++;
     for (int i = 0; i < nbr_line; i++, index++) {
         map[index] = '*';
         index++;
         for (int j = 0; j < nbr_line - i - 1; j++, index++)
             map[index] = ' ';
-        for (int j = 0; j < (i * 2) + 1; j++, index++)
+        for (int j = 0; j < (i * 2) + 1; j++, index++) {
             map[index] = '|';
+            array[i]++;
+        }
         for (int j = 0; j < nbr_line - i - 1; j++, index++)
             map[index] = ' ';
         map[index] = '*';
         index += 1;
         map[index] = '\n';
     }
+    return (index);
+}
+
+void fillmap(int nbr_line, char *map, int *array)
+{
+    int index = 0;
+
+    for (int i = 0; i < nbr_line; i++)
+        array[i] = 0;
+    for (int i = 0; i < nbr_line * 2 + 1; i++, index++)
+        map[index] = '*';
+    map[index] = '\n';
+    index++;
+    index = fill_map_matches(nbr_line, index, map, array);
     for (int i = 0; i < nbr_line * 2 + 1; i++, index++)
         map[index] = '*';
     map[index] = '\n';
@@ -37,16 +47,18 @@ void fillmap(int nbr_line, char *map)
 
 void do_game(game_t *game)
 {
+    for (int i = 0; i < game->max_line; i++)
+        printf("%d\n", game->array[i]);
     for (int i = 0; game->map[i] != '\0'; i++)
         write(1, &game->map[i], 1);
     my_printf("\nYour turn:\n");
     read_player_move_and_print_updated_board_game(game);
+    ia_turn(game);
 }
 
 int matchstick(int nbr_line, int max_matches)
 {
     game_t game = {NULL, 0, 0, 0, -1};
-    int ret = 0;
 
     game.map = malloc(sizeof(char) * ((nbr_line + 2) * (nbr_line * 2 + 2) + 1));
     if (game.map == NULL)
@@ -54,7 +66,8 @@ int matchstick(int nbr_line, int max_matches)
     game.map[(nbr_line + 2) * (nbr_line * 2 + 2)] = '\0';
     game.max_line = nbr_line;
     game.map_width = (nbr_line * 2 + 2);
-    fillmap(nbr_line, game.map);
+    game.array = malloc(sizeof(int) * game.max_line);
+    fillmap(nbr_line, game.map, game.array);
     while (game.end == -1)
         do_game(&game);
     return (game.end);

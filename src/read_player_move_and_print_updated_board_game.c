@@ -87,5 +87,5 @@ void read_player_move_and_print_updated_board_game(game_t *game)
             line = 0;
 
     }
-    update_game_board(line, matches, game->map);
+    update_game_board_player(line, matches, game->map, game);
 }
