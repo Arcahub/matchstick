@@ -5,7 +5,8 @@
 ** copy n character to string
 */
 
-static void add_chara(char *dest, int i, int n) {
+static void add_chara(char *dest, int i, int n)
+{
     for (int j = i; j < n; j++) {
         dest[j] = '\0';
     }

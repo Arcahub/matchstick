@@ -16,7 +16,7 @@ static char digit_to_char(int digits, long double *n)
     for (int d = digits; d > 0; d--) {
         ten = ten * 10;
     }
-    for (; *n >= ten ; digit++, *n -= ten) {
+    for (; *n >= ten; digit++, *n -= ten) {
         if (digit + 48 > '9')
             exit(0);
     }
