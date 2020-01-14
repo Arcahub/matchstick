@@ -7,7 +7,8 @@
 
 SRC	=	my_getnbr.c	\
 		my_put_nbr.c	\
-		my_putchar.c
+		my_putchar.c	\
+		is_only_num.c
 
 OBJ	=	$(SRC:.c=.o)
 

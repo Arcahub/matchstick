@@ -11,5 +11,6 @@
 int my_getnbr(const char *);
 int my_put_nbr(int);
 void my_putchar(char);
+int is_only_num(char *);
 
 #endif /* !MY_H_ */
