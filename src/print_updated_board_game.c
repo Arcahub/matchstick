@@ -36,6 +36,7 @@ game_t *game)
 {
     int count = 0;
 
+    my_printf("AI removed %d match(es) from line %d\n", nb_matches, line);
     for (int i = 0; board[i] != '\0'; i++) {
         if (i / 10 == line && board[i] == '|')
             count++;

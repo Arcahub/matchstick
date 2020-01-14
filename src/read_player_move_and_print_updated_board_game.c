@@ -40,6 +40,20 @@ int my_getnbr(char const *str)
     return (sign_nbr(nbr, sign));
 }
 
+void check_matches(game_t *game, int matches, int max_matches, char *input)
+{
+    if (matches < 0 || !is_only_num(input))
+        my_printf("Error: invalid input (positive number expected)\n");
+    else if (matches == 0)
+        write(1, "Error: you have to remove at least one match\n", 45);
+    else
+        if (matches > max_matches)
+            write(1, "Error: not enough matches on this line\n", 39);
+        else if (matches > game->matches_per_turn)
+        my_printf("Error: you cannot remove more than %d matches per turn\n", \
+        game->matches_per_turn);
+}
+
 int get_matches(game_t *game, int line)
 {
     int matches = 0;
@@ -50,22 +64,22 @@ int get_matches(game_t *game, int line)
     for (; game->map[i] != '\n' && game->map[i] != '\0'; i++)
         if (game->map[i] == '|')
             max_matches++;
-    game->max_matches = max_matches;
+    if (max_matches > game->matches_per_turn)
+        game->max_matches = game->matches_per_turn;
+    else
+        game->max_matches = max_matches;
     write(1, "Matches: ", 10);
     input = get_next_line(0);
     if (input == NULL) {
-        game->end = true;
+        game->end = 0;
         return (84);
     }
     matches = my_getnbr(input);
-    if (matches <= 0)
-        write(1, "Error: you have to remove at least one match\n", 45);
-    else if (matches > max_matches)
-        write(1, "Error: not enough matches on this line\n", 39);
+    check_matches(game, matches, max_matches, input);
     return (matches);
 }
 
-void read_player_move_and_print_updated_board_game(game_t *game)
+void read_player_move_and_update_board_game(game_t *game)
 {
     int line = 0;
     int matches = 0;
@@ -75,7 +89,7 @@ void read_player_move_and_print_updated_board_game(game_t *game)
         write(1, "Line: ", 7);
         input = get_next_line(0);
         if (input == NULL) {
-            game->end = true;
+            game->end = 0;
             return;
         }
         line = my_getnbr(input);

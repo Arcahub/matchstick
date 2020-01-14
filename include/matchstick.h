@@ -17,12 +17,14 @@ typedef struct game {
     int max_line;
     int map_width;
     int max_matches;
+    int matches_per_turn;
     int end;
     int *array;
 } game_t;
 
-void read_player_move_and_print_updated_board_game(game_t *);
-void print_updated_game_board(int, int, char *);
+void read_player_move_and_update_board_game(game_t *);
+void update_game_board_player(int, int, char *, game_t *);
+void update_game_board_ia(int, int, char *, game_t *);
 void my_printf(char *, ...);
 void ia_turn(game_t *game);
 #endif /* !MATCHSTICK_H_ */
