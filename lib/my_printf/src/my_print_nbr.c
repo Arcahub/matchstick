@@ -19,11 +19,13 @@ void print_nbr(va_list list, char *args, params_t *pms)
         pms->acc = my_strlen(str);
     else if (pms->acc == -1)
         pms->acc = my_strlen(str);
-    if (pms->pad != '-')
+    if (pms->pad != '-') {
         print_pad(args, pms->acc, pms->pad_val);
-    my_putnbr_sized(str, pms->acc, pms);
-    if (pms->pad == '-')
+        my_putnbr_sized(str, pms->acc, pms);
+    } else if (pms->pad == '-') {
+        my_putnbr_sized(str, pms->acc, pms);
         print_pad(args, pms->acc, pms->pad_val);
+    }
     free(args);
     free(pms);
 }

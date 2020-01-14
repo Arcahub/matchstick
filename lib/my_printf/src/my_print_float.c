@@ -19,11 +19,13 @@ void print_float(va_list list, char *args, params_t *pms)
         pms->acc = 6;
     str = my_float_to_str(n, pms->acc);
     pms->acc = my_strlen(str);
-    if (pms->pad != '-')
+    if (pms->pad != '-') {
         print_pad(args, pms->acc, pms->pad_val);
-    my_putstr(str);
-    if (pms->pad == '-')
+        my_putstr(str);
+    } else if (pms->pad == '-') {
+        my_putstr(str);
         print_pad(args, pms->acc, pms->pad_val);
+    }
     free(args);
     free(pms);
 }

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** my_strdup.c
 ** File description:
-** my function strdup()
+** mystrdup
 */
 
 #include "my_printf.h"

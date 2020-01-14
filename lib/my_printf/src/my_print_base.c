@@ -17,13 +17,15 @@ void print_octal(va_list list, char *args, params_t *pms)
         my_putstr("0");
     if (n == 0 && pms->acc == 0)
         return;
-    if (pms->acc < my_strlen(str))
+    else if (pms->acc < my_strlen(str))
         pms->acc = my_strlen(str);
-    if (pms->pad != '-')
+    if (pms->pad != '-') {
         print_pad(args, pms->acc, pms->pad_val);
-    my_putnbr_sized(str , pms->acc, pms);
-    if (pms->pad == '-')
+        my_putnbr_sized(str , pms->acc, pms);
+    } else if (pms->pad == '-') {
         print_pad(args, pms->acc, pms->pad_val);
+        my_putnbr_sized(str , pms->acc, pms);
+    }
     free(args);
     free(pms);
 }
