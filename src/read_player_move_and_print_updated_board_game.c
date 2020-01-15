@@ -93,7 +93,9 @@ void read_player_move_and_update_board_game(game_t *game)
             return;
         }
         line = my_getnbr(input);
-        if (line <= 0 || line > game->max_line)
+        if (matches < 0 || !is_only_num(input))
+            my_printf("Error: invalid input (positive number expected)\n");
+        else if (line <= 0 || line > game->max_line)
             write(1, "Error: this line is out of range\n", 33);
         else
             matches = get_matches(game, line);
