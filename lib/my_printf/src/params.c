@@ -68,7 +68,7 @@ params_t *make_params(char *args)
             pms->acc = my_getnbr(args + i + 1);
             break;
         case '*':
-            exit(0);
+            return (NULL);
         }
         pms->pad_val = check_for_zero(i, args, pms);
         pms->sign = check_sign(args[i], pms->sign);

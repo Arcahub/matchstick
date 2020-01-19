@@ -73,7 +73,7 @@ void my_printf(char *str, ...)
 
     init_mypf(MYPF);
     if (str == NULL)
-        exit(84);
+        return;
     va_start(list, str);
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == '%' && str[i + 1] == '%') {
