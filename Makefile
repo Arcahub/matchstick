@@ -31,8 +31,6 @@ LIBS = $(foreach LIB, $(LIBS_DIR), $(addprefix -l, $(LIB_NAME)))
 
 CSFML = -lcsfml-graphics -lcsfml-audio -lcsfml-window -lcsfml-system
 
-MYSQLFLAGS = `mysql_config --cflags --libs`
-
 HEADER = -I./include
 
 REDDARK	=	\033[31;1m
