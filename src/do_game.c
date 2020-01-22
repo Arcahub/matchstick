@@ -37,7 +37,7 @@ void other_turn(game_t *game)
     for (int i = 0; game->map[i] != '\0'; i++)
         write(1, &game->map[i], 1);
     if (check_end(game)) {
-        my_printf("I lost... snif... but I'll get you next time!!\n");
+        my_printf("Well Played you win!!\n");
         game->end = 1;
         return;
     }
@@ -45,8 +45,6 @@ void other_turn(game_t *game)
 
 void do_game(game_t *game)
 {
-    for (int i = 0; game->map[i] != '\0'; i++)
-        write(1, &game->map[i], 1);
     if (game->him == game->you) {
         your_turn(game);
         other_turn(game);

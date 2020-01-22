@@ -13,6 +13,13 @@
 #include <sys/socket.h>
 #include "matchstick.h"
 
+void close_sock(game_t *game)
+{
+    if (game->him != game->you)
+        close(game->him);
+    close(game->you);
+}
+
 int bind_sock(int sock)
 {
     struct sockaddr_in sin = {0};
@@ -43,27 +50,32 @@ void init_server(game_t *game)
         game->end = 84;
         return;
     }
+    if (send(game->him, &(vector_t) {game->max_line, game->matches_per_turn}, \
+    sizeof(vector_t), 0) < 0)
+        game->end = 84;
 }
 
-void init_client(game_t *game, char *host)
+int init_client(game_t *game, char *host)
 {
     struct hostent *hostinfo = NULL;
     struct sockaddr_in sin = {0};
+    vector_t vector = {0, 0};
 
     hostinfo = gethostbyname(host);
-    if (hostinfo == NULL) {
-        game->end = 84;
-        return;
-    }
+    if (hostinfo == NULL)
+        return (84);
     sin.sin_addr = *(struct in_addr *)hostinfo->h_addr_list[0];
     sin.sin_port = htons(4242);
     sin.sin_family = AF_INET;
     if (connect(game->you, (struct sockaddr *) &sin, \
-    sizeof(struct sockaddr)) == -1) {
-        game->end = 84;
-        return;
-    }
+    sizeof(struct sockaddr)) == -1)
+        return (84);
     game->him = game->you;
+    if((recv(game->him, &vector, sizeof vector, 0)) < 0)
+        game->end = 84;
+    else
+        init_game(game, vector.line, vector.matches);
+    return (game->end);
 }
 
 void create_sock(game_t *game, char *host)
