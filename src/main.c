@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
     if (argc < 2)
         return (84);
-    if (argc == 2 && argv[1][0] == '-' && argv[1][1] == 'h')
+    if (argc == 2 && argv[1][0] != '-' && argv[1][1] != 'h')
         return (matchstick(nbr_line, max_matches, argv[1]));
     else if (argc == 4) {
         nbr_line = (my_getnbr(argv[2]));
