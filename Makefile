@@ -25,7 +25,7 @@ NAME = matchstick
 
 CFLAGS = $(LDFLAGS) $(HEADER) -W -Wall -Wno-unused-parameter -Wextra -pedantic $(DEBUG)
 
-LDFLAGS = -L./lib $(LIBS) $(CSFML) $(MYSQLFLAGS)
+LDFLAGS = -L./lib $(LIBS)
 
 LIBS = $(foreach LIB, $(LIBS_DIR), $(addprefix -l, $(LIB_NAME)))
 
