@@ -33,7 +33,9 @@ void other_turn(game_t *game)
         game->end = 84;
         return;
     }
-    update_game_board_player(vector.line, vector.matches, game->map, game);
+    update_game_board_second(vector.line, vector.matches, game->map, game);
+    for (int i = 0; game->map[i] != '\0'; i++)
+        write(1, &game->map[i], 1);
     if (check_end(game)) {
         my_printf("I lost... snif... but I'll get you next time!!\n");
         game->end = 1;
