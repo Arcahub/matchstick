@@ -5,6 +5,7 @@
 ** main
 */
 
+#include <sys/socket.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include "matchstick.h"
@@ -55,34 +56,13 @@ int check_end(game_t *game)
     return (!result);
 }
 
-void do_game(game_t *game)
+int matchstick(int nbr_line, int max_matches, char *host)
 {
-    for (int i = 0; game->map[i] != '\0'; i++)
-        write(1, &game->map[i], 1);
-    my_printf("\nYour turn:\n");
-    read_player_move_and_update_board_game(game);
-    if (game->end != -1)
-        return;
-    for (int i = 0; game->map[i] != '\0'; i++)
-        write(1, &game->map[i], 1);
-    if (check_end(game)) {
-        my_printf("You lost, too bad...\n");
-        game->end = 2;
-        return;
-    }
-    my_printf("\nAI's turn...\n");
-    ia_turn(game);
-    if (check_end(game)) {
-        my_printf("I lost... snif... but I'll get you next time!!\n");
-        game->end = 1;
-        return;
-    }
-}
+    game_t game = {NULL, 0, 0, 0, 0, -1, NULL, 0, 0, false};
 
-int matchstick(int nbr_line, int max_matches)
-{
-    game_t game = {NULL, 0, 0, 0, 0, -1, NULL};
-
+    create_sock(&game, host);
+    if (game.end == 84)
+        return (84);
     game.map = malloc(sizeof(char) * ((nbr_line + 2) * (nbr_line * 2 + 2) + 1));
     if (game.map == NULL)
         return (84);
@@ -103,7 +83,7 @@ int main(int argc, char **argv)
     int nbr_line = 0;
     int max_matches = 0;
 
-    if (argc != 3)
+    if (argc != 4)
         return (84);
     nbr_line = (my_getnbr(argv[1]));
     max_matches = (my_getnbr(argv[2]));
@@ -111,5 +91,5 @@ int main(int argc, char **argv)
         nbr_line = 4;
     if (max_matches <= 0)
         max_matches = nbr_line;
-    return (matchstick(nbr_line, max_matches));
+    return (matchstick(nbr_line, max_matches, argv[3]));
 }

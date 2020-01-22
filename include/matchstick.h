@@ -20,7 +20,16 @@ typedef struct game {
     int matches_per_turn;
     int end;
     int *array;
+    int you;
+    int him;
+    bool is_host;
 } game_t;
+
+typedef struct vector
+{
+    int line;
+    int matches;
+} vector_t;
 
 void read_player_move_and_update_board_game(game_t *);
 void update_game_board_player(int, int, char *, game_t *);

@@ -29,14 +29,16 @@ game_t *game)
         } else
             board[i] = ' ';
     }
+    if (send(game->him, (vector_t) {line, nb_matches}, sizeof(vector_t), 0) < 0)
+        game->end = 84;
 }
 
-void update_game_board_ia(int line, int nb_matches, char *board, \
+void update_game_board_second(int line, int nb_matches, char *board, \
 game_t *game)
 {
     int count = 0;
 
-    my_printf("AI removed %d match(es) from line %d\n", nb_matches, line);
+    my_printf("Other player removed %d match(es) from line %d\n", nb_matches, line);
     for (int i = 0; board[i] != '\0'; i++) {
         if (i / (game->max_line * 2 + 2) == line && board[i] == '|')
             count++;
