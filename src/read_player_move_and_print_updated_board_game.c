@@ -46,12 +46,13 @@ void check_matches(game_t *game, int matches, int max_matches, char *input)
         my_printf("Error: invalid input (positive number expected)\n");
     else if (matches == 0)
         write(1, "Error: you have to remove at least one match\n", 45);
-    else
+    else {
         if (matches > max_matches)
             write(1, "Error: not enough matches on this line\n", 39);
         else if (matches > game->matches_per_turn)
         my_printf("Error: you cannot remove more than %d matches per turn\n", \
         game->matches_per_turn);
+    }
 }
 
 int get_matches(game_t *game, int line)

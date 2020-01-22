@@ -28,9 +28,9 @@ void remove_one(game_t *game)
     int row = 0;
 
     srand(time(NULL));
-    row = rand() % 4;
+    row = rand() % game->max_line;
     while (game->array[row] == 0)
-        row = row % 4 + 1;
+        row = row % game->max_line + 1;
     game->array[row] -= 1;
     update_game_board_ia(row + 1, 1, game->map, game);
 
@@ -43,14 +43,19 @@ void compute_remove(game_t *game)
 
     srand(time(NULL));
     while (!nim_sum(game->array, game->max_line)) {
-        row = rand() % 4;
+        row = rand() % game->max_line;
         while (game->array[row] == 0)
-            row = row % 4 + 1;
+            row = row % game->max_line + 1;
         tmp = game->array[row];
         while (!nim_sum(game->array, game->max_line) && game->array[row] != 0)
             game->array[row] -= 1;
         if (!nim_sum(game->array, game->max_line))
             game->array[row] = tmp;
+        if (tmp - game->array[row] > game->matches_per_turn) {
+            game->array[row] = tmp;
+            remove_one(game);
+            return;
+        }
     }
     update_game_board_ia(row + 1, tmp - game->array[row], game->map, game);
 }

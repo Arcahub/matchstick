@@ -16,12 +16,12 @@ game_t *game)
     game->array[line - 1] -= nb_matches;
     my_printf("Player removed %d match(es) from line %d\n", nb_matches, line);
     for (int i = 0; board[i] != '\0'; i++) {
-        if (i / 10 == line && board[i] == '|')
+        if (i / (game->max_line * 2 + 2) == line && board[i] == '|')
             count++;
     }
     count -= nb_matches;
     for (int i = 0; board[i] != '\0'; i++) {
-        if (board[i] != '|' || i / 10 != line)
+        if (board[i] != '|' || i / (game->max_line * 2 + 2) != line)
             continue;
         else if (count > 0) {
             count--;
@@ -38,12 +38,12 @@ game_t *game)
 
     my_printf("AI removed %d match(es) from line %d\n", nb_matches, line);
     for (int i = 0; board[i] != '\0'; i++) {
-        if (i / 10 == line && board[i] == '|')
+        if (i / (game->max_line * 2 + 2) == line && board[i] == '|')
             count++;
     }
     count -= nb_matches;
     for (int i = 0; board[i] != '\0'; i++) {
-        if (board[i] != '|' || i / 10 != line)
+        if (board[i] != '|' || i / (game->max_line * 2 + 2) != line)
             continue;
         else if (count > 0) {
             count--;
