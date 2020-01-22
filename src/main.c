@@ -47,13 +47,13 @@ int main(int argc, char **argv)
     if (argc == 2 && argv[1][0] == '-' && argv[1][1] == 'h')
         return (matchstick(nbr_line, max_matches, argv[1]));
     else if (argc == 4) {
-        nbr_line = (my_getnbr(argv[1]));
-        max_matches = (my_getnbr(argv[2]));
+        nbr_line = (my_getnbr(argv[2]));
+        max_matches = (my_getnbr(argv[3]));
         if (nbr_line <= 1 || nbr_line >= 100)
             nbr_line = 4;
         if (max_matches <= 0)
             max_matches = nbr_line;
-        return (matchstick(nbr_line, max_matches, argv[3]));
+        return (matchstick(nbr_line, max_matches, argv[1]));
     } else
         return (84);
 }
