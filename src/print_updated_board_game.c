@@ -6,6 +6,7 @@
 */
 
 #include <unistd.h>
+#include <sys/socket.h>
 #include "matchstick.h"
 
 void update_game_board_player(int line, int nb_matches, char *board, \
@@ -29,7 +30,7 @@ game_t *game)
         } else
             board[i] = ' ';
     }
-    if (send(game->him, (vector_t) {line, nb_matches}, sizeof(vector_t), 0) < 0)
+    if (send(game->him, &(vector_t) {line, nb_matches}, sizeof(vector_t), 0) < 0)
         game->end = 84;
 }
 

@@ -5,6 +5,7 @@
 ** do_game
 */
 
+#include <sys/socket.h>
 #include <unistd.h>
 #include "matchstick.h"
 
@@ -25,11 +26,10 @@ void your_turn(game_t *game)
 
 void other_turn(game_t *game)
 {
-    int n = 0;
     vector_t vector = {0, 0};
 
     my_printf("\nOther player's turn...\n");
-    if((recv(game->you, vector, sizeof vector, 0)) < 0) {
+    if((recv(game->him, &vector, sizeof vector, 0)) < 0) {
         game->end = 84;
         return;
     }
