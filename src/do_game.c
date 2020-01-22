@@ -29,7 +29,7 @@ void other_turn(game_t *game)
     vector_t vector = {0, 0};
 
     my_printf("\nOther player's turn...\n");
-    if((n = recv(game->you, vector, sizeof vector - 1, 0)) < 0) {
+    if((recv(game->you, vector, sizeof vector, 0)) < 0) {
         game->end = 84;
         return;
     }
